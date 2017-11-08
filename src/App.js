@@ -7,12 +7,21 @@ import { getHeroes } from "./superheroes.service";
 class App extends Component {
   state = {
     title: "Super Heroes",
-    heroes: SuperHeroes.Heroes,
+    heroes: [],
     selectedHero: {
       id: undefined,
       superHero: ""
     }
   };
+  componentWillMount() {
+    getHeroes()
+      .then(res => res.json())
+      .then(payload => {
+        this.setState({
+          heroes: payload.heroes
+        });
+      });
+  }
   handleSubmit = event => {
     event.preventDefault();
     const hero = this.state.selectedHero;
